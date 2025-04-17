@@ -20,7 +20,7 @@ videoRouter.get("/own_videos", protectedRoute, getMyVideosController);
 videoRouter.get("/category/:category", protectedRoute, getMyVideosController);
 videoRouter.get("/tags/:tag", protectedRoute, getMyVideosController);
 
-videoRouter.get("/like", likeVideoController);
-videoRouter.get("/dislike", dislikedVideoController);
+videoRouter.post("/like", likeVideoController);
+videoRouter.post("/dislike", dislikedVideoController);
 
 export default videoRouter;

@@ -12,4 +12,5 @@ userRouter.post("/signup", signupController);
 userRouter.post("/signin", limiter(), ...validateSignIn(), signinController);
 userRouter.put("/update_profile", protectedRoute, updateProfileController);
 userRouter.post("/signout", signoutController);
+
 export default userRouter;
