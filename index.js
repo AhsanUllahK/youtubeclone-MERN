@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import DB_connection from "./utils/db.js";
 import userRouter from "./routes/userRoutes.js";
 import videoRouter from "./routes/videoRoutes.js";
-import protectedRoute from "./middlewares/protectedRoute.js";
 
 config();
 
@@ -16,7 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp/" }));
 app.use("/api/v1/user", userRouter);
-app.use("/api/v1/vidoe", protectedRoute, videoRouter);
+app.use("/api/v1/video", videoRouter);
 
 DB_connection();
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

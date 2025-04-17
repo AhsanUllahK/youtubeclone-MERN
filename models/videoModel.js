@@ -2,64 +2,65 @@ import mongoose from "mongoose";
 
 const videoModel = new mongoose.Schema(
   {
-    _id: mongoose.Types.ObjectId,
+    // _id: mongoose.Schema.Types.ObjectId,
     title: {
       type: String,
       required: true,
+      trim: true,
     },
     description: {
       type: String,
       required: true,
+      trim: true,
     },
-    video_url: {
+    videoURL: {
       type: String,
-      required: true,
+      trim: true,
+      // required: true,
+      default: "",
     },
-    thumbnail_url: {
+    thumbnailURL: {
       type: String,
+      default: "",
       required: true,
     },
-    views: {
-      type: Number,
-      default: 0,
-      min: 0,
-    },
-    likes: {
-      type: Number,
-      default: 0,
-      min: 0,
-    },
-    dislikes: {
-      type: Number,
-      default: 0,
-      min: 0,
-    },
-    comments: {
-      type: Number,
-      default: 0,
-      min: 0,
-    },
-    duration: {
+    thumbnailId: {
       type: String,
+      trim: true,
       required: true,
     },
-    tags: {
-      type: [String],
-      required: true,
-    },
+    tags: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     category: {
       type: String,
       required: true,
+      trim: true,
     },
-    user: {
-      type: mongoose.Types.ObjectId,
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
+    likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    disLikedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    viewedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
 
+videoModel.virtual("likes").get(function () {
+  return this.likedBy.length;
+});
+videoModel.virtual("dislikes").get(function () {
+  return this.disLikedBy.length;
+});
+videoModel.virtual("views").get(function () {
+  return this.viewedBy.length;
+});
 const Video = mongoose.model("Video", videoModel);
 
 export default Video;
